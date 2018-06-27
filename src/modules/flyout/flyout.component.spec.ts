@@ -28,7 +28,7 @@ import {
   SkyFlyoutConfig
 } from './types';
 
-describe('Flyout component', () => {
+fdescribe('Flyout component', () => {
   let applicationRef: ApplicationRef;
   let fixture: ComponentFixture<SkyFlyoutTestComponent>;
   let flyoutService: SkyFlyoutService;
@@ -83,6 +83,10 @@ describe('Flyout component', () => {
 
   function getPermalinkButtonElement(): HTMLElement {
     return document.querySelector('.sky-flyout-btn-permalink') as HTMLElement;
+  }
+
+  function getPrimaryActionButtonElement(): HTMLElement {
+    return document.querySelector('.sky-flyout-btn-primaryaction') as HTMLElement;
   }
 
   beforeEach(() => {
@@ -362,6 +366,78 @@ describe('Flyout component', () => {
         });
         const permalinkButton = getPermalinkButtonElement();
         expect(permalinkButton.getAttribute('href')).toEqual('http://foo.com');
+      })
+    );
+  });
+
+  describe('primary action', () => {
+    it('should not show the primary action button if no primaryAction config properties are defined',
+      fakeAsync(() => {
+        openFlyout();
+        const primaryActionButton = getPrimaryActionButtonElement();
+        expect(primaryActionButton).toBeFalsy();
+      })
+    );
+
+    it('should not show the primary action button if no callback is defined',
+      fakeAsync(() => {
+        openFlyout({
+          primaryAction: {
+            label: 'Foo Bar'
+          }
+        });
+
+        const primaryActionButton = getPrimaryActionButtonElement();
+        expect(primaryActionButton).toBeFalsy();
+      })
+    );
+
+    it('should use the default primary action label if none is defined',
+      fakeAsync(() => {
+        const expectedLabel = SkyResources.getString('flyout_primaryaction_button');
+
+        openFlyout({
+          primaryAction: {
+            callback: () => {}
+          }
+        });
+
+        const primaryActionButton = getPrimaryActionButtonElement();
+        expect(primaryActionButton).toBeTruthy();
+        expect(primaryActionButton.innerHTML.trim()).toEqual(expectedLabel);
+      })
+    );
+
+    it('should use the custom defined label for primary action',
+      fakeAsync(() => {
+        const expectedLabel = 'Foo Bar';
+
+        openFlyout({
+          primaryAction: {
+            label: expectedLabel,
+            callback: () => {}
+          }
+        });
+
+        const primaryActionButton = getPrimaryActionButtonElement();
+        expect(primaryActionButton).toBeTruthy();
+        expect(primaryActionButton.innerHTML.trim()).toEqual(expectedLabel);
+      })
+    );
+
+    it('should call the defined callback function when clicking on the primary action button',
+      fakeAsync(() => {
+        let callbackCalled = false;
+        openFlyout({
+          primaryAction: {
+            callback: () => {
+              callbackCalled = true;
+            }
+          }
+        });
+        const primaryActionButton = getPrimaryActionButtonElement();
+        primaryActionButton.click();
+        expect(callbackCalled).toBe(true);
       })
     );
   });

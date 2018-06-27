@@ -23,6 +23,8 @@
     <div class="sky-flyout-header-buttons">
       <ng-container *ngTemplateOutlet="permalinkTemplate">
       </ng-container>
+      <ng-container *ngTemplateOutlet="primaryActionTemplate">
+      </ng-container>
       <button
         type="button"
         class="sky-btn sky-btn-default sky-flyout-btn-close"
@@ -58,6 +60,19 @@
         (click)="close()"
       >
         {{ permalinkLabel }}
+      </a>
+    </ng-template>
+  </ng-template>
+</ng-template>
+
+<ng-template #primaryActionTemplate>
+  <ng-template [ngIf]="primaryAction">
+    <ng-template [ngIf]="primaryAction.callback">
+        <a
+        class="sky-btn sky-btn-default sky-flyout-btn-primaryaction"
+        (click)="primaryAction.callback()"
+      >
+        {{ primaryActionLabel }}
       </a>
     </ng-template>
   </ng-template>

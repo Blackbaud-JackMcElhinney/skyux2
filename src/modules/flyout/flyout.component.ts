@@ -33,6 +33,7 @@ import {
 import { SkyFlyoutAdapterService } from './flyout-adapter.service';
 import { SkyFlyoutInstance } from './flyout-instance';
 import { SkyFlyoutPermalink } from './types/flyout-permalink';
+import { SkyFlyoutPrimaryAction } from './types/flyout-primaryaction';
 
 import {
   SkyFlyoutConfig,
@@ -89,6 +90,23 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
 
     return SkyResources.getString('flyout_permalink_button');
+  }
+
+  public get primaryAction(): SkyFlyoutPrimaryAction {
+    const primaryAction = this.config.primaryAction;
+    if (primaryAction) {
+      return primaryAction;
+    }
+
+    return {};
+  }
+
+  public get primaryActionLabel(): string {
+    if (this.primaryAction.label) {
+      return this.primaryAction.label;
+    }
+
+    return SkyResources.getString('flyout_primaryaction_button');
   }
 
   @ViewChild('target', { read: ViewContainerRef })

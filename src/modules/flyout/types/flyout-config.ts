@@ -1,6 +1,9 @@
 import {
   SkyFlyoutPermalink
 } from './flyout-permalink';
+import {
+  SkyFlyoutPrimaryAction
+} from './flyout-primaryaction';
 
 export interface SkyFlyoutConfig {
   ariaDescribedBy?: string;
@@ -10,5 +13,6 @@ export interface SkyFlyoutConfig {
   minWidth?: number;
   maxWidth?: number;
   permalink?: SkyFlyoutPermalink;
+  primaryAction?: SkyFlyoutPrimaryAction;
   providers?: any[];
 }

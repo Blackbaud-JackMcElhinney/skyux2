@@ -92,4 +92,22 @@ export class SkyFlyoutDemoComponent {
       }
     });
   }
+
+  public openFlyoutWithActionButton() {
+    this.flyoutService.open(SkyFlyoutDemoInternalComponent, {
+      providers: [{
+        provide: FlyoutDemoContext,
+        useValue: {
+          id: '1',
+          name: 'Jenkins'
+        }
+      }],
+      primaryAction: {
+        label: 'Action',
+        callback: () => {
+          alert('Action callback called');
+        }
+      }
+    });
+  }
 }
